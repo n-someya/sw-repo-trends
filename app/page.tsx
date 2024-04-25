@@ -16,7 +16,7 @@ export default async function Index() {
 
   const isSupabaseConnected = canInitSupabaseClient();
 
-  const summaries = await getSummaries();
+  const summaries = await getSummaries(1);
 
   return (
     <div className="flex-1 max-w-full flex flex-col items-center">
@@ -28,7 +28,7 @@ export default async function Index() {
 
       <div className="animate-in flex-1 flex flex-col w-full px-3 pt-3">
         <main className="flex-1 flex flex-col">
-          <Summaries initialSummaries={summaries} />
+          <Summaries initialSummaries={summaries["summaries"]} />
         </main>
       </div>
 

@@ -1,0 +1,1 @@
+export const NUM_OF_SUMMARIES_PER_PAGE = 9;
