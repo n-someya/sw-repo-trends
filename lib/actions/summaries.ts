@@ -4,9 +4,9 @@ import { Tables } from '@/database.types';
 import { createClient } from '@/utils/supabase/server';
 import { NUM_OF_SUMMARIES_PER_PAGE } from '@/lib/constants';
 
-const supabase = createClient();
-
 export async function getSummaries(page: number, limit: number = NUM_OF_SUMMARIES_PER_PAGE) {
+  const supabase = createClient();
+  // NOTE: supabase client must aware cookie of each user.
   const startIndex = (page - 1) * limit;
   let { data: summaries, error, count } = await supabase
     .from('summary_view')
