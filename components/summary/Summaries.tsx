@@ -24,7 +24,7 @@ import Summary from './Summary';
 
 const Summaries = ({ initialSummaries }: { initialSummaries: Tables<'summary_view'>[] }) => {
   const [summaries, setSummaries] = useState<Tables<'summary_view'>[]>(initialSummaries);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(2); // NOTE: page 1 is already recived as initialSummaries.
   const loader = useRef(null);
 
   const handleObserver = (entities: IntersectionObserverEntry[]) => {
