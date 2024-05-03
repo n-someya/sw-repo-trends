@@ -1,5 +1,6 @@
 import "./globals.css";
 import { Metadata } from "next"
+import { GoogleTagManager } from '@next/third-parties/google'
 
 import { fontSans } from "@/lib/fonts"
 import { cn } from "@/lib/utils"
@@ -11,8 +12,8 @@ const defaultUrl = process.env.VERCEL_URL
 
 export const metadata = {
   metadataBase: new URL(defaultUrl),
-  title: "Software Repo Trends",
-  description: "",
+  title: "ソフトウェア リポジトリ トレンド | Software Repo Trends",
+  description: "注目を集めるソフトウェアレポジトリに関して、概要を解析して紹介しています",
 };
 
 interface RootLayoutProps {
@@ -32,6 +33,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
             fontSans.variable
           )}
         >
+          <GoogleTagManager gtmId="GTM-T4DQGPQ6" />
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             <div className="relative flex min-h-screen flex-col">
               <div className="flex-1">{children}</div>
