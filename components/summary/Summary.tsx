@@ -4,22 +4,36 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Button } from '@/components/ui/button';
 import { ChevronDown, ChevronUp } from 'lucide-react';
+import { Badge } from '../ui/badge';
 
 interface SummaryProps {
   summary: Tables<'summary_view'>;
+  badges: Array<string>;
 }
 
-const Summary: React.FC<SummaryProps> = ({ summary }) => {
+const Summary: React.FC<SummaryProps> = ({ summary, badges = [] }) => {
   const [isOpen, setIsOpen] = useState(false);
   return (
-    <Card key={summary.id} className="max-w-full bg-base-100 shadow-xl">
-      <CardHeader className='pt-6 pb-1 px-6'>
-        <CardTitle className='text-md'>{summary.entry_title}</CardTitle>
-        <CardDescription className='flex flex-col'>
-          <a href={summary.entry_url!} target="_blank" rel="noopener noreferrer">{summary.entry_url}</a>
-          <span className="text-xs text-gray-500">{`${summary.published_at!.split('T')[0]} ${summary.published_at!.split('T')[1].split('.')[0]}`}</span>
-        </CardDescription>
-      </CardHeader>
+    <Card key={summary.id} className="max-w-full bg-base-100 shadow-md">
+        <CardHeader className='pt-6 pb-1 px-6'>
+          <CardTitle className='text-md'>
+            <div className='flex flex-row justify-between'>
+              {summary.entry_title}
+              <div className='flex flex-row justify-end'>
+                {new Date(summary.published_at!).toDateString() === new Date().toDateString() && <Badge className='ml-2'>Today</Badge>}
+                {new Date(summary.published_at!).toDateString() === new Date(new Date().setDate(new Date().getDate()-1)).toDateString() && <Badge variant='secondary' className='ml-2'>Yesterday</Badge>}
+                { badges.map( value => 
+                  <Badge variant='outline' className='ml-2'>{value}</Badge>
+                )}
+              </div>
+            </div>
+          </CardTitle>
+          <CardDescription className='flex flex-col'>
+            <a href={summary.entry_url!} target="_blank" rel="noopener noreferrer">{summary.entry_url}</a>
+            <span className="text-xs text-gray-500">{`${summary.published_at!.split('T')[0]} ${summary.published_at!.split('T')[1].split('.')[0]}`}</span>
+          </CardDescription>
+        </CardHeader>
+        
       <CardContent>
         <Collapsible
           open={isOpen}
