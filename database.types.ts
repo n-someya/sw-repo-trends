@@ -839,12 +839,21 @@ export type Database = {
         Row: {
           entry_title: string | null
           entry_url: string | null
+          feed_id: number | null
           feed_title: string | null
           id: number | null
           published_at: string | null
           summary: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "entries_feed_id_fkey"
+            columns: ["feed_id"]
+            isOneToOne: false
+            referencedRelation: "feeds"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Functions: {

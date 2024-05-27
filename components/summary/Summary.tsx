@@ -8,7 +8,7 @@ import { Badge } from '../ui/badge';
 
 interface SummaryProps {
   summary: Tables<'summary_view'>;
-  badges: Array<string>;
+  badges?: Array<string>;
 }
 
 const Summary: React.FC<SummaryProps> = ({ summary, badges = [] }) => {
@@ -30,7 +30,7 @@ const Summary: React.FC<SummaryProps> = ({ summary, badges = [] }) => {
           </CardTitle>
           <CardDescription className='flex flex-col'>
             <a href={summary.entry_url!} target="_blank" rel="noopener noreferrer">{summary.entry_url}</a>
-            <span className="text-xs text-gray-500">{`${summary.published_at!.split('T')[0]} ${summary.published_at!.split('T')[1].split('.')[0]}`}</span>
+            <span className="text-xs text-gray-500">{summary.feed_title} - {`${summary.published_at!.split('T')[0]} ${summary.published_at!.split('T')[1].split('.')[0]}`}</span>
           </CardDescription>
         </CardHeader>
         
