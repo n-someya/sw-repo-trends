@@ -26,11 +26,17 @@ const Summaries = ({ initialSummaries }: { initialSummaries: Tables<'summary_vie
   const [summaries, setSummaries] = useState<Tables<'summary_view'>[]>(initialSummaries);
   const [page, setPage] = useState(2); // NOTE: page 1 is already recived as initialSummaries.
   const loader = useRef(null);
+  const MAX_AUTOLOAD_PAGE = 5;
 
   const handleObserver = (entities: IntersectionObserverEntry[]) => {
     const target = entities[0];
-    if (target.isIntersecting) {
-      setPage((prevPage) => prevPage + 1);
+    if (target.isIntersecting && page < MAX_AUTOLOAD_PAGE) {
+      setPage((prevPage) => {
+        if (prevPage < MAX_AUTOLOAD_PAGE)
+          return prevPage + 1;
+        else
+          return prevPage;
+      });
     }
   };
 
@@ -49,9 +55,12 @@ const Summaries = ({ initialSummaries }: { initialSummaries: Tables<'summary_vie
   useEffect(() => {
     const loadMoreSummaries = async () => {
       const newSummaries = await getSummaries(page);
-      setSummaries((prevSummaries) => [...prevSummaries, ...newSummaries.summaries]);
+      setSummaries((prevSummaries) => {
+        const existingIds = new Set(prevSummaries.map(summary => summary.id));
+        const filteredSummaries = newSummaries.summaries.filter(summary => !existingIds.has(summary.id));
+        return [...prevSummaries, ...filteredSummaries];
+      });
     };
-
     loadMoreSummaries();
   }, [page]);
 
@@ -60,7 +69,7 @@ const Summaries = ({ initialSummaries }: { initialSummaries: Tables<'summary_vie
       {summaries.map((summary) => (
         <Summary key={summary.id} summary={summary} />
       ))}
-      <div ref={loader} className="loading">Loading more...</div>
+      <div ref={loader} className="p-2"><Button variant="outline" className='w-full' onClick={() => setPage(prevPage => prevPage + 1)}>Load more...</Button></div>
     </div>
   );
 };
