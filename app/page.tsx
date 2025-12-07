@@ -2,18 +2,18 @@ import { Suspense } from 'react';
 import ServerSideSummaries from "@/components/summary/ServerSideSummaries";
 import { createClient } from "@/utils/supabase/server";
 export default async function Index() {
-  const canInitSupabaseClient = () => {
+  const canInitSupabaseClient = async () => {
     // This function is just for the interactive tutorial.
     // Feel free to remove it once you have Supabase connected.
     try {
-      createClient();
+      await createClient();
       return true;
     } catch (e) {
       return false;
     }
   };
 
-  const isSupabaseConnected = canInitSupabaseClient();
+  const isSupabaseConnected = await canInitSupabaseClient();
 
   return (
     <div>
